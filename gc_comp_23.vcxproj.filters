@@ -22,13 +22,13 @@
     <ClCompile Include="src\ZGBMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StateGame.c">
+    <ClCompile Include="src\states\StateGame.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpritePlayer.c">
+    <ClCompile Include="src\sprites\SpritePlayer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpriteEnemy.c">
+    <ClCompile Include="src\sprites\SpriteEnemy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
