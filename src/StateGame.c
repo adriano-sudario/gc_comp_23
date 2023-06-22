@@ -14,7 +14,7 @@ IMPORT_TILES(font);
 
 UINT8 collision_tiles[] = { 1, 0 };
 
-INT8 playMusic = 1;
+INT8 playMusic = 0;
 
 void enableSounds() {
 	NR52_REG = 0x80;

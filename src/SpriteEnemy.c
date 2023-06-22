@@ -17,7 +17,7 @@ void UPDATE() {
 
 	if (TranslateSprite(THIS, 0, data->speed << delta_time)) {
 		data->speed = -data->speed;
-		PlayFx(CHANNEL_4, 4, 0x0c, 0x41, 0x30, 0xc0);
+		// PlayFx(CHANNEL_4, 4, 0x0c, 0x41, 0x30, 0xc0);
 	}
 }
 

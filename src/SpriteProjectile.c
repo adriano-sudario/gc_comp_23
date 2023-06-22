@@ -27,7 +27,6 @@ void START() {
 
 void UPDATE() {
 	PROJECTILE_DATA* data = (PROJECTILE_DATA*)THIS->custom_data;
-	data->framesAlive++;
 
     if (TranslateSprite(THIS, (data->speed) * data->direction << delta_time, 0))
 		SpriteManagerRemoveSprite(THIS);
