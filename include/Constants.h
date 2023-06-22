@@ -1,1 +1,0 @@
-extern const UINT8 GRAVITY = 3;

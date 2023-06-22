@@ -3,6 +3,8 @@
 #include "SpriteManager.h"
 #include "Sound.h"
 
+extern const UINT8 SOUNDS_ON;
+
 typedef struct {
 	INT8 speed;
 	INT8 direction;
@@ -15,7 +17,9 @@ void CreatePlayerProjectile(UINT16 x, UINT16 y, INT8 direction) BANKED {
 	PROJECTILE_DATA* data = (PROJECTILE_DATA*)spr->custom_data;
 
 	data->direction = direction;
-	// PlayFx(CHANNEL_1, 10, 0x2C, 0xD8, 0xF3, 0x62, 0xC7);
+	
+	if (SOUNDS_ON)
+		PlayFx(CHANNEL_1, 10, 0x2C, 0xD8, 0xF3, 0x62, 0xC7);
 }
 
 void START() {
@@ -33,7 +37,7 @@ void UPDATE() {
 	
 	UINT8 i;
 	Sprite* spr;
-	
+
 	SPRITEMANAGER_ITERATE(i, spr) {
 		if (spr->type == SpriteEnemy && CheckCollision(THIS, spr)) {
 			SpriteManagerRemove(i);

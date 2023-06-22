@@ -19,13 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Constants.c" />
     <ClCompile Include="src\SpriteEnemy.c" />
     <ClCompile Include="src\SpritePlayer.c" />
+    <ClCompile Include="src\SpriteProjectile.c" />
     <ClCompile Include="src\StateGame.c" />
     <ClCompile Include="src\ZGBMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\ZGBMain.h" />
   </ItemGroup>
   <ItemGroup>

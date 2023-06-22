@@ -5,6 +5,8 @@
 #include "Music.h"
 #include "Print.h"
 
+extern const UINT8 SOUNDS_ON;
+
 DECLARE_MUSIC(template);
 
 IMPORT_MAP(map);
@@ -13,8 +15,6 @@ IMPORT_MAP(hud);
 IMPORT_TILES(font);
 
 UINT8 collision_tiles[] = { 1, 0 };
-
-INT8 playMusic = 0;
 
 void enableSounds() {
 	NR52_REG = 0x80;
@@ -32,7 +32,7 @@ void START() {
 	// Printf("TESTE");
 	enableSounds();
 
-	if (playMusic)
+	if (SOUNDS_ON)
 		PlayMusic(template, 1);
 }
 

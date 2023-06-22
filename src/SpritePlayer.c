@@ -5,7 +5,9 @@
 #include "Sound.h"
 #include "Scroll.h"
 #include "Print.h"
-#include "Constants.h"
+
+extern const UINT8 GRAVITY;
+extern const UINT8 SOUNDS_ON;
 
 void CreatePlayerProjectile(UINT16 x, UINT16 y, INT8 direction) BANKED;
 
@@ -33,7 +35,9 @@ void TakeDamage(UINT8 amount) {
 
 	if (life <= 0) {
 		SetState(StateGame);
-		// PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
+
+		if (SOUNDS_ON)
+			PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
 	}
 }
 
