@@ -7,6 +7,8 @@
 #include "Print.h"
 #include "Constants.h"
 
+void CreatePlayerProjectile(UINT16 x, UINT16 y, INT8 direction) BANKED;
+
 const UINT8 animIdle[] = { 4, 0, 1, 2, 1 };
 const UINT8 animWalk[] = { 4, 3, 4, 5, 6 };
 const UINT8 animJump[] = { 1, 7 };
@@ -16,6 +18,8 @@ UINT8 life = 3;
 UINT8 isJumpButtonHeld = 1;
 INT8 verticalForce = 0;
 UINT8 isOnFloor = 0;
+UINT8 previousBPressed = 0;
+UINT8 currentBPressed = 0;
 
 void UpdateLifeHud() {
 	for (UINT8 i = 0; i < 3; ++i)
@@ -33,15 +37,21 @@ void TakeDamage(UINT8 amount) {
 }
 
 void ManageInputs() {
-	// if (KEY_PRESSED(J_UP)) {
-	// 	TranslateSprite(THIS, 0, -speed << delta_time);
-	// 	SetSpriteAnim(THIS, anim_walk, 15);
-	// }
+	previousBPressed = currentBPressed;
+	currentBPressed = KEY_PRESSED(J_B);
 
-	// if (KEY_PRESSED(J_DOWN)) {
-	// 	TranslateSprite(THIS, 0, speed << delta_time);
-	// 	SetSpriteAnim(THIS, anim_walk, 15);
-	// }
+	if (!previousBPressed && currentBPressed) {
+		CreatePlayerProjectile(THIS->x, THIS->y, THIS->mirror == V_MIRROR ? -1 : 1);
+		// Sprite* spr = SpriteManagerAdd(SpriteProjectile, x, y);
+		// CUSTOM_DATA* data = (CUSTOM_DATA*)spr->custom_data;
+		// Sprite* projectile = SpriteManagerAdd(SpriteProjectile, THIS->x, THIS->y + 4);
+		// CUSTOM_DATA* projectile_data = (CUSTOM_DATA*)projectile->custom_data;
+
+		// if (THIS->mirror == V_MIRROR) {
+		// 	CUSTOM_DATA* projectile_data = (CUSTOM_DATA*)projectile->custom_data;
+		// 	projectile_data->direction = -1;
+		// }
+	}
 
 	if (isOnFloor && KEY_PRESSED(J_A) && isJumpButtonHeld) {
 		verticalForce = -(jumpForce + GRAVITY);
