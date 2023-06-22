@@ -30,6 +30,16 @@ void UPDATE() {
 
     if (TranslateSprite(THIS, (data->speed) * data->direction << delta_time, 0))
 		SpriteManagerRemoveSprite(THIS);
+	
+	UINT8 i;
+	Sprite* spr;
+	
+	SPRITEMANAGER_ITERATE(i, spr) {
+		if (spr->type == SpriteEnemy && CheckCollision(THIS, spr)) {
+			SpriteManagerRemove(i);
+			SpriteManagerRemoveSprite(THIS);
+		}
+	}
 }
 
 void DESTROY() {

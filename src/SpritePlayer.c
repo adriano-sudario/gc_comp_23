@@ -12,6 +12,7 @@ void CreatePlayerProjectile(UINT16 x, UINT16 y, INT8 direction) BANKED;
 const UINT8 animIdle[] = { 4, 0, 1, 2, 1 };
 const UINT8 animWalk[] = { 4, 3, 4, 5, 6 };
 const UINT8 animJump[] = { 1, 7 };
+const UINT8 animPower[] = { 1, 8 };
 const UINT8 speed = 1;
 const UINT8 jumpForce = 45;
 UINT8 life = 3;
@@ -32,7 +33,7 @@ void TakeDamage(UINT8 amount) {
 
 	if (life <= 0) {
 		SetState(StateGame);
-		PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
+		// PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
 	}
 }
 
@@ -40,18 +41,11 @@ void ManageInputs() {
 	previousBPressed = currentBPressed;
 	currentBPressed = KEY_PRESSED(J_B);
 
-	if (!previousBPressed && currentBPressed) {
-		CreatePlayerProjectile(THIS->x, THIS->y, THIS->mirror == V_MIRROR ? -1 : 1);
-		// Sprite* spr = SpriteManagerAdd(SpriteProjectile, x, y);
-		// CUSTOM_DATA* data = (CUSTOM_DATA*)spr->custom_data;
-		// Sprite* projectile = SpriteManagerAdd(SpriteProjectile, THIS->x, THIS->y + 4);
-		// CUSTOM_DATA* projectile_data = (CUSTOM_DATA*)projectile->custom_data;
+	if (currentBPressed && !(KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)))
+		SetSpriteAnim(THIS, animPower, 15);
 
-		// if (THIS->mirror == V_MIRROR) {
-		// 	CUSTOM_DATA* projectile_data = (CUSTOM_DATA*)projectile->custom_data;
-		// 	projectile_data->direction = -1;
-		// }
-	}
+	if (!previousBPressed && currentBPressed)
+		CreatePlayerProjectile(THIS->x, THIS->y, THIS->mirror == V_MIRROR ? -1 : 1);
 
 	if (isOnFloor && KEY_PRESSED(J_A) && isJumpButtonHeld) {
 		verticalForce = -(jumpForce + GRAVITY);
@@ -104,7 +98,7 @@ void UPDATE() {
 	Sprite* spr;
 
 	SPRITEMANAGER_ITERATE(i, spr) {
-		if(spr->type == SpriteEnemy && CheckCollision(THIS, spr)) {
+		if (spr->type == SpriteEnemy && CheckCollision(THIS, spr)) {
 			SpriteManagerRemove(i);
 			TakeDamage(1);
 		}
