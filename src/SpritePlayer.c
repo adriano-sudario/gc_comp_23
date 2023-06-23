@@ -17,12 +17,16 @@ const UINT8 animJump[] = { 1, 7 };
 const UINT8 animPower[] = { 1, 8 };
 const UINT8 speed = 1;
 const UINT8 jumpForce = 45;
+const UINT8 powerFramesCooldown = 20;
+const UINT8 animPowerFramesDuration = 5;
 UINT8 life = 3;
 UINT8 isJumpButtonHeld = 1;
 INT8 verticalForce = 0;
 UINT8 isOnFloor = 0;
 UINT8 previousBPressed = 0;
 UINT8 currentBPressed = 0;
+UINT8 canShoot = 1;
+UINT8 elapsedPowerFrames = 0;
 
 void UpdateLifeHud() {
 	for (UINT8 i = 0; i < 3; ++i)
@@ -45,11 +49,17 @@ void ManageInputs() {
 	previousBPressed = currentBPressed;
 	currentBPressed = KEY_PRESSED(J_B);
 
-	if (currentBPressed && !(KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)))
-		SetSpriteAnim(THIS, animPower, 15);
+	if (!canShoot) {
+		elapsedPowerFrames++;
 
-	if (!previousBPressed && currentBPressed)
+		if (elapsedPowerFrames >= powerFramesCooldown) {
+			canShoot = 1;
+			elapsedPowerFrames = 0;
+		}
+	} else if (!previousBPressed && currentBPressed) {
 		CreatePlayerProjectile(THIS->x, THIS->y, THIS->mirror == V_MIRROR ? -1 : 1);
+		canShoot = 0;
+	}
 
 	if (isOnFloor && KEY_PRESSED(J_A) && isJumpButtonHeld) {
 		verticalForce = -(jumpForce + GRAVITY);
@@ -74,7 +84,9 @@ void ManageInputs() {
 		THIS->mirror = NO_MIRROR;
 	}
 
-	if (keys == 0)
+	if (!canShoot && elapsedPowerFrames <= animPowerFramesDuration)
+		SetSpriteAnim(THIS, animPower, 15);
+	else if (isOnFloor && !(KEY_PRESSED(J_LEFT) || KEY_PRESSED(J_RIGHT)))
 		SetSpriteAnim(THIS, animIdle, 15);
 }
 
