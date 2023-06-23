@@ -50,7 +50,7 @@ void ManageInputs() {
 	currentBPressed = KEY_PRESSED(J_B);
 
 	if (!canShoot) {
-		elapsedPowerFrames++;
+		elapsedPowerFrames += 1 << delta_time;
 
 		if (elapsedPowerFrames >= powerFramesCooldown) {
 			canShoot = 1;
